@@ -1,0 +1,62 @@
+services:
+  browser:
+    build: ./browser
+    container_name: ba-browser
+    restart: unless-stopped
+    environment:
+      - TZ=${TZ:-America/Winnipeg}
+      - VNC_RESOLUTION=${VNC_RESOLUTION:-1280x800}
+    volumes:
+      - browser-profile:/profile
+    networks:
+      - ba-net
+
+  agent:
+    build: ./agent
+    container_name: ba-agent
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      - BROWSER_CDP_URL=http://browser:9222
+      - TZ=${TZ:-America/Winnipeg}
+    depends_on:
+      browser:
+        condition: service_started
+    networks:
+      - ba-net
+
+  web:
+    build: ./web
+    container_name: ba-web
+    restart: unless-stopped
+    networks:
+      - ba-net
+
+  caddy:
+    image: caddy:2-alpine
+    container_name: ba-caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    environment:
+      - DOMAIN=${DOMAIN}
+    depends_on:
+      - agent
+      - web
+      - browser
+    networks:
+      - ba-net
+
+volumes:
+  browser-profile: # persistent Chromium profile: your manual logins survive restarts
+  caddy-data:      # Let's Encrypt certificates
+  caddy-config:
+
+networks:
+  ba-net:
