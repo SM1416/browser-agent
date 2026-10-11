@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>My Browser Agent</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<!-- Login -->
+<div id="login-view" class="view">
+  <div class="card login-card">
+    <h1>🤖 My Browser Agent</h1>
+    <p class="hint">Enter your site password to continue.</p>
+    <input id="password" type="password" placeholder="Site password"
+           autocomplete="current-password" enterkeyhint="go">
+    <button id="login-btn" class="primary big">Log in</button>
+    <p id="login-error" class="error"></p>
+  </div>
+</div>
+
+<!-- App -->
+<div id="app-view" class="view hidden">
+  <header>
+    <span class="logo">🤖 Browser Agent</span>
+    <span id="status-pill" class="pill idle">idle</span>
+    <button id="logout-btn" class="ghost">Logout</button>
+  </header>
+
+  <main>
+    <section class="card">
+      <label for="task-input"><strong>What should the agent do?</strong></label>
+      <textarea id="task-input" rows="3"
+        placeholder="e.g. Search for the cheapest flight from Winnipeg to Toronto next month and tell me the price."></textarea>
+      <div class="row">
+        <button id="start-btn" class="primary">▶ Start task</button>
+        <button id="cancel-btn" class="danger" disabled>⏹ Cancel</button>
+      </div>
+    </section>
+
+    <div id="human-banner" class="banner hidden">
+      <div>
+        <strong>🙋 The agent needs your help</strong><br>
+        <span id="human-reason"></span>
+      </div>
+      <button id="banner-takeover-btn" class="primary">✋ Take over</button>
+    </div>
+
+    <section class="card">
+      <div class="row space-between">
+        <h2>🌐 Live browser</h2>
+        <div class="row">
+          <button id="takeover-btn">✋ Take over</button>
+          <button id="handback-btn" class="primary hidden">🤖 Hand back to agent</button>
+        </div>
+      </div>
+      <p class="hint">Watch-only while the agent works. <strong>Take over</strong> to click and type
+        yourself — e.g. solve a captcha or log in to a site — then <strong>hand back</strong>
+        so the agent can continue.</p>
+      <div class="browser-frame">
+        <iframe id="vnc" title="Live browser view" allow="clipboard-read; clipboard-write"></iframe>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>📋 Agent activity</h2>
+      <ul id="log"><li class="muted">No activity yet. Start a task above.</li></ul>
+    </section>
+  </main>
+</div>
+
+<script src="/app.js"></script>
+</body>
+</html>

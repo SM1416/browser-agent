@@ -1,0 +1,186 @@
+/* Mobile-first dark UI */
+:root {
+  --bg: #0f141b;
+  --card: #1a2230;
+  --text: #e8edf4;
+  --muted: #93a0b4;
+  --primary: #4f8cff;
+  --danger: #e5534b;
+  --ok: #3fb950;
+  --warn: #d29922;
+  --radius: 12px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 16px;
+  line-height: 1.45;
+}
+
+.view { min-height: 100vh; }
+.hidden { display: none !important; }
+
+/* Login */
+#login-view {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.login-card { width: 100%; max-width: 380px; text-align: center; }
+.login-card h1 { margin-top: 0; }
+
+/* Cards & layout */
+main {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 12px 12px 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 16px;
+}
+.card h2 { margin: 0; font-size: 1.05rem; }
+
+header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  background: #141b26;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.logo { font-weight: 700; flex: 1; }
+
+.pill {
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: #2a3444;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+.pill.running { background: #12325e; color: #7db3ff; }
+.pill.needs_human, .pill.paused { background: #4a3405; color: #f0b429; }
+.pill.done { background: #0f3d1e; color: var(--ok); }
+.pill.error, .pill.cancelled { background: #4a1414; color: var(--danger); }
+
+label { display: block; margin-bottom: 8px; }
+
+input[type="password"], textarea {
+  width: 100%;
+  background: #0d1219;
+  border: 1px solid #2c3a4f;
+  color: var(--text);
+  border-radius: 10px;
+  padding: 12px;
+  font-size: 16px; /* prevents iOS zoom */
+  margin-bottom: 12px;
+}
+input[type="password"]:focus, textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+textarea { resize: vertical; min-height: 72px; }
+
+button {
+  background: #2a3444;
+  color: var(--text);
+  border: none;
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  min-height: 48px; /* touch-friendly */
+}
+button:disabled { opacity: 0.4; cursor: default; }
+button.primary { background: var(--primary); color: #fff; }
+button.danger { background: #5a1f1c; color: #ff9d97; }
+button.ghost { background: transparent; color: var(--muted); padding: 8px 10px; min-height: 0; }
+button.big { width: 100%; }
+
+.row { display: flex; gap: 10px; flex-wrap: wrap; }
+.row .primary { flex: 1; }
+.space-between { justify-content: space-between; align-items: center; }
+
+.hint { color: var(--muted); font-size: 0.9rem; }
+.muted { color: var(--muted); }
+.error { color: var(--danger); min-height: 1.2em; }
+
+/* Human-help banner */
+.banner {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  background: #3a2c07;
+  border: 1px solid var(--warn);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+}
+.banner button { flex-shrink: 0; }
+
+/* Browser viewer */
+.browser-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  background: #000;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid #2c3a4f;
+}
+.browser-frame iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #000;
+}
+
+/* Activity log */
+#log {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  max-height: 320px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+#log li {
+  background: #0d1219;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 0.9rem;
+}
+#log .step-n {
+  color: var(--primary);
+  font-weight: 700;
+  margin-right: 6px;
+}
+#log .step-url {
+  color: var(--muted);
+  font-size: 0.8rem;
+  word-break: break-all;
+}
+#log li.done-msg { border-left: 3px solid var(--ok); }
+#log li.err-msg { border-left: 3px solid var(--danger); }
+#log li.help-msg { border-left: 3px solid var(--warn); }
+
+@media (min-width: 700px) {
+  main { padding: 20px 20px 60px; }
+}
