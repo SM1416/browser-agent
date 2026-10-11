@@ -1,0 +1,30 @@
+# Automatic HTTPS via Let's Encrypt for {$DOMAIN}.
+# /vnc/* is protected by the site login (forward_auth asks the agent service).
+{
+	admin off
+}
+
+{$DOMAIN} {
+	encode gzip
+
+	# Live browser viewer (noVNC). forward_auth gates it behind the site login:
+	# Caddy asks the agent; only HTTP 200 lets the request through.
+	handle /vnc/* {
+		# Strip the prefix so noVNC sees /vnc.html and /websockify at its root.
+		uri strip_prefix /vnc
+		forward_auth agent:8000 {
+			uri /api/auth-check
+		}
+		reverse_proxy browser:6080
+	}
+
+	# Backend API + websocket.
+	handle /api/* {
+		reverse_proxy agent:8000
+	}
+
+	# The website itself.
+	handle {
+		reverse_proxy web:80
+	}
+}
