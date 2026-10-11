@@ -1,0 +1,6 @@
+# Pinned browser-use: API verified against 0.13.11 (Oct 2026).
+browser-use==0.13.11
+fastapi==0.115.*
+uvicorn[standard]==0.34.*
+python-multipart==0.0.20
+httpx==0.28.*
